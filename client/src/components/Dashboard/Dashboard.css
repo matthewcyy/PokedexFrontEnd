@@ -1,0 +1,46 @@
+.Dashboard {
+  text-align: center;
+}
+
+.Dashboard-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .Dashboard-logo {
+    animation: Dashboard-logo-spin infinite 20s linear;
+  }
+}
+
+.Dashboard-header {
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(0, 0, 0);
+}
+
+.Dashboard-link {
+  color: #61dafb;
+}
+
+.Dashboard-pokemoncontainer {
+  display: flex;
+  text-align: center;
+  flex-wrap: wrap;
+  margin: auto;
+  justify-content: center;
+}
+
+@keyframes Dashboard-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

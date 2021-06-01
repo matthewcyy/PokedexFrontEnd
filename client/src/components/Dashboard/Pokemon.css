@@ -1,0 +1,39 @@
+.Pokemon-card {
+    padding: .5rem;
+    margin-top: 0.5rem;
+    border: 2px solid grey;
+    background-color: rgb(182, 178, 178);
+    border-radius: 10px;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    flex: 1 0 14%;
+    max-width: 14%;
+}
+.Pokemon-card:hover {
+    animation: bounce 0.5s linear;
+}
+
+.Pokemon-card-image {
+    width: 90%;
+    height: 90%;
+}
+
+a {
+    text-decoration: none;
+}
+
+@keyframes bounce {
+    20% {
+        transform: translateY(-6px);
+    }
+    40% {
+        transform: translateY(0px);
+    }
+
+    80% {
+        transform: translateY(-2px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
