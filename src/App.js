@@ -1,39 +1,58 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import React, {useState, useEffect } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import axios from 'axios';
+import Header from './components/layout/Header';
+import Home from './components/pages/Home';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+import UserContext from './context/userContext';
+import Dashboard from './components/Dashboard/Dashboard';
 
 import './App.css';
-import logo from './logo.svg';
-
-import Dashboard from './components/Dashboard/Dashboard';
-import Preferences from './components/Preferences/Preferences';
-import Login from './components/Login/Login';
-import useToken from './useToken';
 
 function App() {
-  const { token, setToken } = useToken();
+  const [ userData, setUserData] = useState({
+    token: undefined,
+    user: undefined
+  });
 
-  const removeToken = () => {
-    localStorage.removeItem('token');
-}
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      let token = localStorage.getItem("auth-token");
+      if(token === null){
+        localStorage.setItem("auth-token", "");
+        token = "";
+      }
+      const tokenResponse = await axios.post('http://localhost:5000/users/tokenIsValid', null, {headers: {"x-auth-token": token}});
+      if (tokenResponse.data) {
+        const userRes = await axios.get("http://localhost:5000/users/", {
+          headers: { "x-auth-token": token },
+        });
+        console.log(userRes)
+        setUserData({
+          token,
+          user: userRes.data,
+        });
+      }
+    }
 
-  if(!token) {
-    return <Login setToken={setToken} />
-  }
+    checkLoggedIn();
+  }, []);
+
+
 
   return (
-    <div className="App">
-      <h1>MiniPokedex</h1>
-      <img src={logo} alt="logo" />
-      <br />
-      <BrowserRouter>
+    <BrowserRouter>
+      <UserContext.Provider value={{ userData, setUserData }}>
+        <Header />
         <Switch>
-          <Route path='/dashboard'>
-          <Link to='/login' onClick={removeToken()}>Logout</Link>
-            <Dashboard />
-          </Route>
+          <Route exact path="/" component={Home} />
+          <Route path="/register" component={Register} />
+          <Route path="/login" component={Login} />
+          <Route path='/dashboard' component={Dashboard}/>
         </Switch>
-      </BrowserRouter>
-    </div>
+        </UserContext.Provider>
+    </BrowserRouter>
   );
 }
 

@@ -17,6 +17,7 @@ function Dashboard() {
   const [endPoint2, setEndPoint2] = useState(30);
   const [multPokemons, setMultPokemons] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [favPokemons, setFavPokemons] = useState([]);
 
   const baseApiUrl = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=898";
 

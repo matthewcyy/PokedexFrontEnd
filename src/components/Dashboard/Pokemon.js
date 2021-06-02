@@ -5,7 +5,7 @@ import 'reactjs-popup/dist/index.css';
 
 
 function Pokemon(props) { // Have app.js pass in props of the jsons to here? Then render their names and pictures, and prepare if click
-  const [isOpen, setIsOpen] = useState(false);
+  const [isFav, setIsFav] = useState(props.favs);
   const pokeFacts = {
     imageUrl: props.pokemon.sprites.front_default,
     name: props.pokemon.name,
@@ -18,7 +18,7 @@ function Pokemon(props) { // Have app.js pass in props of the jsons to here? The
   return (
     <div className="Pokemon-card">
       <Popup trigger={<div><img className="Pokemon-card-image" src={pokeFacts.imageUrl} alt="Picture of a pokemon"></img>
-      {pokeFacts.name}</div>} modal>
+      {pokeFacts.name} <button className="favButton" onClick="location.href='https://teachla.uclaacm.com/'">Favorite</button></div>} modal>
         <div>
           <p><b>Name</b>: {pokeFacts.name}</p>
           <p><b>Ability</b>: {pokeFacts.ability}</p>

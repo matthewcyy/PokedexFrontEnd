@@ -9,6 +9,17 @@
     flex: 1 0 14%;
     max-width: 14%;
 }
+.Pokemon-card-fav {
+    padding: .5rem;
+    margin-top: 0.5rem;
+    border: 2px solid grey;
+    background-color: rgb(252, 159, 159);
+    border-radius: 10px;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    flex: 1 0 14%;
+    max-width: 14%;
+}
 .Pokemon-card:hover {
     animation: bounce 0.5s linear;
 }
