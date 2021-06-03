@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import Pokemon from './Pokemon.js'
 import Pagination from './Pagination.js'
 import './Dashboard.css';
 import './Pokemon.css';
+import UserContext from '../../context/userContext';
 
 // import PokemonCard from './PokemonCard.js';
 
@@ -18,6 +19,8 @@ function Dashboard() {
   const [multPokemons, setMultPokemons] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [favPokemons, setFavPokemons] = useState([]);
+
+  const { userData, setUserData } = useContext(UserContext);
 
   const baseApiUrl = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=898";
 
@@ -95,7 +98,7 @@ function Dashboard() {
       
       <div className="Dashboard-pokemoncontainer">
         {multPokemons.map((pokemon, i) => (
-          <Pokemon key={i} pokemon={pokemon} />
+            <Pokemon key={i} pokemon={pokemon} />
         ))}
       </div>
 

@@ -7,7 +7,7 @@ class Header extends Component {
     render() { 
         return ( 
             <header className="header">
-                <Link to="/"><h1 className="title">Mini Pokedex</h1></Link>
+                <Link to="/dashboard"><h1 className="title">Mini Pokedex</h1></Link>
                 <AuthOptions />
             </header>
          );

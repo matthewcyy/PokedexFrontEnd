@@ -21,8 +21,9 @@ function Register () {
 
         try{
             const newUser = {email, password, passwordCheck, displayName, favPokemon};
-            await axios.post("http://localhost:5000/users/register", newUser);
-            const loginResponse = await axios.post("http://localhost:5000/users/login", {
+            console.log(newUser);
+            await axios.post("https://minipokedexbackend.herokuapp.com/users/register", newUser);
+            const loginResponse = await axios.post("https://minipokedexbackend.herokuapp.com/users/login", {
                 email, password
             });
             console.log(loginResponse.data);
@@ -31,7 +32,7 @@ function Register () {
                 user: loginResponse.data.user
             });
             localStorage.setItem("auth-token", loginResponse.data.token);
-            history.push("/");
+            history.push("/login");
         } catch(err) {
             err.response.data.msg && setError(err.response.data.msg)
         }

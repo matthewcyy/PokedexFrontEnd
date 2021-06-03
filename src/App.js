@@ -23,9 +23,9 @@ function App() {
         localStorage.setItem("auth-token", "");
         token = "";
       }
-      const tokenResponse = await axios.post('http://localhost:5000/users/tokenIsValid', null, {headers: {"x-auth-token": token}});
+      const tokenResponse = await axios.post('https://minipokedexbackend.herokuapp.com/users/tokenIsValid', null, {headers: {"x-auth-token": token}});
       if (tokenResponse.data) {
-        const userRes = await axios.get("http://localhost:5000/users/", {
+        const userRes = await axios.get("https://minipokedexbackend.herokuapp.com/users/", {
           headers: { "x-auth-token": token },
         });
         console.log(userRes)
@@ -51,7 +51,7 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path='/dashboard' component={Dashboard}/>
         </Switch>
-        </UserContext.Provider>
+      </UserContext.Provider>
     </BrowserRouter>
   );
 }
