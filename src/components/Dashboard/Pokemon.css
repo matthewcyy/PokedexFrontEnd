@@ -24,6 +24,10 @@
     animation: bounce 0.5s linear;
 }
 
+.Pokemon-card-fav:hover {
+    animation: bounce 0.5s linear;
+}
+
 .Pokemon-card-image {
     width: 90%;
     height: 90%;

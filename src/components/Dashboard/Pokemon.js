@@ -53,16 +53,6 @@ function Pokemon(props) { // Have app.js pass in props of the jsons to here? The
       err.response.data.msg && setError(err.response.data.msg)
     }
   };
-
-  /*
-  userData = {
-    "token": zxcv2lwekrjhasdfoiuy,
-    "user": {"displayName": "username", 
-             "favPokemon": ["", bulbasaur],
-             "id": "12345678"
-    }
-  }
-  */
     
   const pokeFacts = {
     imageUrl: props.pokemon.sprites.front_default,
