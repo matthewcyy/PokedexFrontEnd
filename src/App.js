@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import Header from './components/layout/Header';
 import Home from './components/pages/Home';
@@ -23,7 +23,7 @@ function App() {
         localStorage.setItem("auth-token", "");
         token = "";
       }
-      const tokenResponse = await axios.post('https://minipokedexbackend.herokuapp.com/users/tokenIsValid', null, {headers: {"x-auth-token": token}});
+      const tokenResponse = await axios.post('https://minipokedexbackend.herokuapp.com/users/tokenIsValid', null, {headers: {"x-auth-token": token}}); //Change back to minipokedexherokuapp.com/users/ later
       if (tokenResponse.data) {
         const userRes = await axios.get("https://minipokedexbackend.herokuapp.com/users/", {
           headers: { "x-auth-token": token },
