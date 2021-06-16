@@ -46,9 +46,7 @@ function Dashboard() {
       var userNewFavArr = update(userData, {
         user: { favPokemon: { $set: putArr } }
       });
-      console.log(userNewFavArr);
       setUserData(userNewFavArr);
-      console.log(userData);
       await axios.patch("https://minipokedexbackend.herokuapp.com/users/favorite", updateUser)
     } catch (err) {
       setError(err.message)
@@ -73,7 +71,20 @@ function Dashboard() {
   }, [endPoint1, endPoint2])
 
   useEffect(() => {
-    if (searchTerm !== "") {
+
+    if (searchTerm === "favorites" || searchTerm === "favorite") { // Show all favorited pokemon
+      fetch(baseApiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const containStr = data.results.filter((data) => favPokemons.includes(data.name)); // Check each pokemon to see if its name is in the fav pokemon list
+          const urls = containStr.map((pokemonId) => pokemonId.url);
+          Promise.all(
+            urls.map((eachURL) => fetch(eachURL).then((res) => res.json()))
+          ).then((res) => setMultPokemons(res));
+        })
+    }
+    
+    else if (searchTerm !== "") {
       fetch(baseApiUrl)
         .then(response => response.json())
         .then(data => {
@@ -84,6 +95,7 @@ function Dashboard() {
           ).then((res) => setMultPokemons(res));
         })
     }
+    
     else {
       fetch(baseApiUrl)
         .then(response => response.json())
@@ -109,7 +121,6 @@ function Dashboard() {
   function changePageView(pageIndex) {
     setEndPoint1((pageIndex - 1) * 30)
     setEndPoint2(pageIndex * 30)
-    console.log(endPoint1);
   }
 
   return (

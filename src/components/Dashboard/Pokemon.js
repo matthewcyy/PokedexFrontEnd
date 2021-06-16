@@ -11,8 +11,6 @@ import axios from 'axios';
 
 function Pokemon(props) { // Have app.js pass in props of the jsons to here? Then render their names and pictures, and prepare if click
   // const [isFav, setIsFav] = useState(props.isFav);
-  console.log(props.isFav);
-  console.log(props.pokemon.name);
 
   function favOrUnfav()  { // Patch method to favorite or unfavorite a pokemon
     if (props.isFav) { //isFav
