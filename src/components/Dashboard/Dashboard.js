@@ -18,6 +18,25 @@ import axios from 'axios';
 // Also, may either use infinite scroll or next page, but must use setApiUrl and/or setOffset to update what we're getting
 // If use infinite scroll, since you can scroll back up, just want to update the limit rather than the offset
 
+const baseApiUrl = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=898";
+var pokeObjects;
+// var pokeUrls;
+// var pokeNames;
+
+async function getPokeObjects() {
+  await fetch(baseApiUrl)
+  .then(response => response.json())
+  .then(data => {
+    pokeObjects = data.results.map((data) => data); // Fetching results array of objects
+    // pokeUrls = data.results.map((data) => data.url);
+    // pokeNames = data.results.map((data) => data.name)
+  })
+}
+
+getPokeObjects()
+
+console.log(pokeObjects)
+
 function Dashboard() {
   const { userData, setUserData } = useContext(UserContext);
 
@@ -56,55 +75,34 @@ function Dashboard() {
     updateFavs()
   }, [favPokemons])
 
-
-  const baseApiUrl = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=898";
-
   useEffect(() => {
-    fetch(baseApiUrl)
-      .then(response => response.json())
-      .then(data => {
-        const urls = data.results.slice(endPoint1, endPoint2).map((data) => data.url); // Fetching results array's indices
-        Promise.all(
-          urls.map((eachURL) => fetch(eachURL).then((res) => res.json()))
-        ).then((res) => setMultPokemons(res));
-      })
+    Promise.all(
+      pokeObjects.slice(endPoint1, endPoint2).map((eachObj) => fetch(eachObj.url).then((res) => res.json()))
+    ).then((res) => setMultPokemons(res));
   }, [endPoint1, endPoint2])
 
   useEffect(() => {
 
     if (searchTerm === "favorites" || searchTerm === "favorite") { // Show all favorited pokemon
-      fetch(baseApiUrl)
-        .then(response => response.json())
-        .then(data => {
-          const containStr = data.results.filter((data) => favPokemons.includes(data.name)); // Check each pokemon to see if its name is in the fav pokemon list
-          const urls = containStr.map((pokemonId) => pokemonId.url);
-          Promise.all(
-            urls.map((eachURL) => fetch(eachURL).then((res) => res.json()))
-          ).then((res) => setMultPokemons(res));
-        })
+      const containStr = pokeObjects.filter((poke) => favPokemons.includes(poke.name)); // Check each pokemon to see if its name is in the fav pokemon list
+      const urls = containStr.map((pokemonId) => pokemonId.url);
+      Promise.all(
+        urls.map((eachURL) => fetch(eachURL).then((res) => res.json()))
+      ).then((res) => setMultPokemons(res));
     }
     
     else if (searchTerm !== "") {
-      fetch(baseApiUrl)
-        .then(response => response.json())
-        .then(data => {
-          const containStr = data.results.filter((data) => data.name.includes(searchTerm));
-          const urls = containStr.map((pokemonId) => pokemonId.url);
-          Promise.all(
-            urls.map((eachURL) => fetch(eachURL).then((res) => res.json()))
-          ).then((res) => setMultPokemons(res));
-        })
+      const containStr = pokeObjects.filter((poke) => poke.name.includes(searchTerm)); // Check each pokemon to see if its name is in the fav pokemon list
+      const urls = containStr.map((pokemonId) => pokemonId.url);
+      Promise.all(
+        urls.map((eachURL) => fetch(eachURL).then((res) => res.json()))
+      ).then((res) => setMultPokemons(res));
     }
     
     else {
-      fetch(baseApiUrl)
-        .then(response => response.json())
-        .then(data => {
-          const urls = data.results.slice(endPoint1, endPoint2).map((data) => data.url); // Fetching results array's indices
-          Promise.all(
-            urls.map((eachURL) => fetch(eachURL).then((res) => res.json()))
-          ).then((res) => setMultPokemons(res));
-        })
+      Promise.all(
+        pokeObjects.slice(endPoint1, endPoint2).map((eachObj) => fetch(eachObj.url).then((res) => res.json()))
+      ).then((res) => setMultPokemons(res));
     }
   }, [searchTerm])
 
